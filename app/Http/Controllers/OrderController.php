@@ -8,6 +8,8 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderNotifications;
 
 class OrderController extends Controller
 {
@@ -84,6 +86,9 @@ class OrderController extends Controller
                 'customer_id' => $dataForm['customer_id'],
                 'product_ids' => json_encode($dataForm['product_ids'])
             ]);
+
+          //  dd($customer['email']);
+            Mail::to($customer['email'])->send(new OrderNotifications($customer));
             DB::commit();
             return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
         }
