@@ -14,7 +14,7 @@ class CreateCustomersTable extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('telephone')->nullable();
@@ -35,6 +35,8 @@ class CreateCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::table('customers', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 }

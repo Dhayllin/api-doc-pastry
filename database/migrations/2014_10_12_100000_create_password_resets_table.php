@@ -28,6 +28,8 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::table('password_resets', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 }

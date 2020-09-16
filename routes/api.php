@@ -26,5 +26,11 @@ Route::group([
 ], function ($router) {
 
     Route::get('users','UserController@index');
+    Route::get('customers','CustomerController@index');
+    Route::post('customers/store','CustomerController@store');
+    Route::get('customers/{idCustomer}','CustomerController@show');
+    Route::get('customers/{idCustomer}/edit','CustomerController@edit');
+    Route::post('customers/update/{idCustomer}','CustomerController@update');
+    Route::delete('customers/{id}','CustomerController@destroy');
 
 });
