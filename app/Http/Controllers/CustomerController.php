@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+
+    private $customer;
+
+    public function __construct(Customer $customer)
+    {
+        $this->customer = $customer;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        return $customer->all();
     }
 
     /**

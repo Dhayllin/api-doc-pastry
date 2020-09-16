@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('telephone')->nullable();
             $table->date('date_birth')->nullable();
             $table->string('address')->nullable();
-            $table->string('complement');
+            $table->string('complement')->nullable();
             $table->string('neighborhood')->nullable();
             $table->string('cep')->nullable();
             $table->timestamps();
