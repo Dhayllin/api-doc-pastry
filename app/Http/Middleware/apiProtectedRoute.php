@@ -19,7 +19,6 @@ class apiProtectedRoute extends BaseMiddleware
      */
     public function handle($request, Closure $next)
     {
-        Log::info('message');
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
