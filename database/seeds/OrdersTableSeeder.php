@@ -16,14 +16,21 @@ class OrdersTableSeeder extends Seeder
             [
                 'id' => 1,
                 'customer_id' => 1,
-                'product_id' => 1,
+                'product_ids' => json_encode(["1","2","3","4"]),
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
                 'id' => 2,
                 'customer_id' => 2,
-                'product_id' => 2,
+                'product_ids' => json_encode(["4","3","1"]),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 3,
+                'customer_id' => 2,
+                'product_ids' => json_encode(["3"]),
                 'created_at' => $now,
                 'updated_at' => $now,
             ],

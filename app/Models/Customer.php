@@ -17,13 +17,17 @@ class Customer extends Model
     {
         return [
             'name' => 'required|string|max:50',
-            'email'=>'sometimes|required|unique:customers',
+            'email'=>'string|sometimes|required|unique:customers',
             'telephone'=>'required',
             'address'=>'required',
             'neighborhood'=>'required',
             'cep'=>'required',
         ];
+    }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'customer_id','id');
     }
 
 }

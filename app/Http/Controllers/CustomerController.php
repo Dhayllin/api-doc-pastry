@@ -81,7 +81,12 @@ class CustomerController extends Controller
     {
 
         $customer = $this->customer->where('id', $id)->first();
+
         if ($customer) {
+
+            $ordersCustomer = $customer->orders()->get();
+            $customer->orders = $customer->orders()->get();
+
             return response()->json($customer);
         } else {
             return response()->json(['data' => 'customer not found']);
@@ -115,57 +120,33 @@ class CustomerController extends Controller
     public function update(Request $request,$id)
     {
         $rules = $this->customer->rules();
-        Log::info('rules');
-        Log::info($rules);
+        $rules['email'] = 'unique:customers,email,'.$id;
 
-       $validator = Validator::make( $request->all(),[
-  'name' => 'required|string|max:50',
-  'email' => 'sometimes|required|unique:customers,email,'.$id,
-  'telephone' => 'required',
-  'address' => 'required',
-  'neighborhood' => 'required',
-  'cep' => 'required',
-       ] );
+        $validator = Validator::make( $request->all(),$rules);
 
+        if ($validator->fails()) {
+            return  $validator->messages()->first();
+        }
 
-       if ($validator->fails()) {
-        return  $validator->messages()->first();
-   }
+        $customer = $this->customer->where('id', $id)->first();
 
-
-        $customer = $this->customer->findOrFail($id);
-
-
-        Log::info('id');
-        Log::info($id);
-
-        Log::info('id antes');
-        Log::info($customer);
-
+        $dataForm = $request->all();
 
         DB::beginTransaction();
         try
         {
-            $this->customer->update([
-              'name' => $request->name,
-              'email' => $request->email,
-              'telephone' => $request->telephone,
-              'date_birth' => $request->date_birth,
-              'address' => $request->date_birth,
-              'complement' => $request->date_birth,
-              'neighborhood' => $request->date_birth,
-              'cep' => $request->date_birth,
-            ]);
-            DB::commit();
-
-        Log::info('id depois');
-        Log::info($customer);
-            return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
+            if ($customer) {
+                $customer->update($dataForm);
+                DB::commit();
+                return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
+            } else {
+                return response()->json(['data' => 'user not found']);
+            }
         }
         catch(\Exception $ex)
         {
             DB::rollBack();
-            return $ex->getMessage();
+             return response()->json(['data' => $ex->getMessage()], 422);
         }
     }
 
@@ -177,19 +158,23 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $customer = $this->customer->findOrFail($id);
+        $customer = $this->customer->where('id', $id)->first();
 
         DB::beginTransaction();
         try
         {
-            $customer->delete();
-            DB::commit();
-            return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
+            if ($customer) {
+                $customer->delete();
+                DB::commit();
+                return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
+            } else {
+                return response()->json(['data' => 'user not found']);
+            }
         }
         catch(\Exception $ex)
         {
             DB::rollBack();
-            return $ex->getMessage();
+            return response()->json(['data' => $ex->getMessage()], 422);
         }
     }
 }
