@@ -63,3 +63,7 @@ MAIL_ENCRYPTION=tls
 É necessário também habilitar a opção na sua conta de e-mail para "Permitir aplicativos menos seguros" neste link  [Google](https://myaccount.google.com/lesssecureapps?pli=1)
 
 Recomendo que use o [Mailtrap](https://www.mailtrap.io) para testar o envio de emails.
+
+ENDPOINT PARA LOGIN TESTE
+http://127.0.0.1:8000/api/login
+Login:  email: dhayllin@hotmail.com  senha:12345678
