@@ -177,7 +177,7 @@ class OrderController extends Controller
                 DB::commit();
                 return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
             } else {
-                return response()->json(['data' => 'user not found']);
+                return response()->json(['data' => 'order not found']);
             }
         }
         catch(\Exception $ex)
@@ -193,8 +193,25 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        $order = $this->order->where('id', $id)->first();
+
+        DB::beginTransaction();
+        try
+        {
+            if ($order) {
+                $order->delete();
+                DB::commit();
+                return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
+            } else {
+                return response()->json(['data' => 'order not found']);
+            }
+        }
+        catch(\Exception $ex)
+        {
+            DB::rollBack();
+            return response()->json(['data' => $ex->getMessage()], 422);
+        }
     }
 }
