@@ -13,14 +13,17 @@ class OrderNotifications extends Mailable
     use Queueable, SerializesModels;
 
     private $product;
+    private $customer;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($product)
+    public function __construct($product, $customer)
     {
         $this->product = $product;
+        $this->customer = $customer;
     }
 
 
@@ -29,10 +32,11 @@ class OrderNotifications extends Mailable
      *
      * @return $this
      */
+
     public function build()
     {
         return $this
                 ->subject('Pedidos')
-                ->view('mail.products.product-notification');
+                ->view('mail.products.product-notification',['products' => $this->product,'customer' => $this->customer['name']]);
     }
 }

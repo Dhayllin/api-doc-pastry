@@ -27,16 +27,22 @@ composer install --no-scripts
 
 <strong> Crie uma novas chaves para a aplicação</strong>
 <br>
-<code><code>php artisan key:generate</code> e `php artisan jwt:secret`</code>
+<code>php artisan key:generate  e `php artisan jwt:secret`</code>
+
+
+<strong> Link simbólico para habilitar uploda de imagens</strong>
+<br><code> php artisan storage:link </code>
 
 No .env configure o acesso ao banco de dados: <br>
 <code>
+<br>
 DB_CONNECTION=mysql <br>
 DB_HOST=127.0.0.1    <br>
 DB_PORT=3306  <br>
 DB_DATABASE=nome_bd_local <br>
 DB_USERNAME=**** <br>
 DB_PASSWORD=****
+<br>
 </code>
 
 Em seguida rode o camando a seguir <code> php artisan migrate:fresh --seed </code> o banco vai ser criadado e populado com dados fakers para teste.

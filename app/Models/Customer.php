@@ -18,10 +18,10 @@ class Customer extends Model
         return [
             'name' => 'required|string|max:50',
             'email'=>'string|sometimes|required|unique:customers',
-            'telephone'=>'required',
+            'telephone'=>'required|min:10',
             'address'=>'required',
             'neighborhood'=>'required',
-            'cep'=>'required',
+            'cep'=>'required|min:7',
         ];
     }
 
