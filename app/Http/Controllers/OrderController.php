@@ -82,13 +82,14 @@ class OrderController extends Controller
         DB::beginTransaction();
         try
         {
-            $this->order->create([
+            $order = $this->order->create([
                 'customer_id' => $dataForm['customer_id'],
                 'product_ids' => json_encode($dataForm['product_ids'])
             ]);
 
-          //  dd($customer['email']);
-            Mail::to($customer['email'])->send(new OrderNotifications($customer));
+           $orders = $this->product ->whereIn('id',json_decode($order->product_ids))->get();
+
+            Mail::to($customer['email'])->send(new OrderNotifications($orders,$customer));
             DB::commit();
             return  response()->json(['code'=>200,'message'=>'mensagem_sucesso']);
         }

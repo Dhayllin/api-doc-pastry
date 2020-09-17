@@ -17,6 +17,7 @@ class Order extends Model
     {
         return [
             'customer_id' => 'required|numeric',
+            'product_ids' => 'required'
         ];
     }
 
